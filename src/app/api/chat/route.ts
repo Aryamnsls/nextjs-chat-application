@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   try {
     // 3. Initialize the stream with tools for real-time data
     const result = streamText({
-      model: google('gemini-1.5-flash'),
+      model: google('gemini-2.0-flash'),
       system: "You are Nova Intelligence, a highly capable AI assistant. " +
               "You have access to real-time tools. If a user asks for weather or temperature, " +
               "use the getWeather tool. Always respond in clean, pointwise Markdown.",
