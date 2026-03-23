@@ -16,10 +16,10 @@ export async function POST(req: Request) {
 
   // 2. Extract messages and validate API key
   const { messages } = await req.json();
-  const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+  const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || 'AIzaSyDRUouIIvBhBM_XSYWRf3YzzXdgamTOZF4';
 
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
-    return new Response(JSON.stringify({ error: "API Key is missing. Please update .env.local" }), { status: 500 });
+    return new Response(JSON.stringify({ error: "API Key is missing. Please update your environment variables on Vercel." }), { status: 500 });
   }
 
   const google = createGoogleGenerativeAI({
