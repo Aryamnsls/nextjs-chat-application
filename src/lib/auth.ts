@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "p6f9y1z8d3m5g7h2k4n6q8v0x9a7c5b3",
   providers: [
     CredentialsProvider({
       name: "Chat Nova Auth",
