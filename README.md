@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chat Nova - Next.js Production Grade Chat Application
+
+A sleek, responsive, and robust Next.js Chat Application built from scratch following modern design principles. It features a custom glassmorphism UI, a dynamic typing indicator, and smooth animations without relying on heavy external CSS frameworks (developed with Vanilla CSS properties).
+
+## Features
+
+- ⚛️ **Next.js App Router**: Utilizing the latest React Server Components and Client Components structure.
+- 🎨 **Custom Vanilla CSS System**: A highly optimized styling system with fluid responsive layouts and no external bloated CSS libraries. Built-in support for multiple color schemes including a premium Dark Mode.
+- 💬 **Interactive Chat Interface**: Mimics production-grade AI applications with dedicated user/assistant message bubbles, avatar indicators, and auto-scroll to latest messages.
+- ⏳ **Simulated AI Processing**: Includes dynamic loading/typing animations using pure CSS keyframes with simulated latency mimicking API network requests.
+- 📱 **Mobile Responsive Layouts**: Carefully crafted to adapt across various screen sizes.
+
+## Project Structure
+
+```bash
+src/
+├── app/
+│   ├── layout.tsx     # The Root Application Layout 
+│   ├── page.tsx       # The Core Interactive Chat Interface (Client Component)
+│   ├── globals.css    # Premium Custom Design Definitions (CSS Variables, Typography, Glassmorphism, Animations)
+│   └── api/
+│       └── chat/      # API Routes infrastructure prepared for LLM integrations (e.g. Gemini, OpenAI)
+```
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies:**
+```bash
+npm install
+```
 
+2. **Run the development server:**
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Future Enhancements & AI Integration (Vercel AI SDK)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To upgrade the simulated responses into real LLM integrations (like Google Gemini):
+1. Install the Vercel AI SDK: `npm i ai @ai-sdk/google`
+2. Create `src/app/api/chat/route.ts` to securely handle the API key:
+```typescript
+import { streamText } from 'ai';
+import { google } from '@ai-sdk/google';
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+  const result = streamText({
+    model: google('gemini-1.5-pro-latest'),
+    messages,
+  });
+  return result.toDataStreamResponse();
+}
+```
+3. Update `page.tsx` to handle the streaming hooks.
